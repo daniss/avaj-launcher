@@ -1,7 +1,6 @@
 package fr.daniss.avaj.simulator;
 
 import fr.daniss.avaj.simulator.aircraft.AircraftFactory;
-import fr.daniss.avaj.simulator.exceptions.AircraftTypeException;
 import fr.daniss.avaj.simulator.exceptions.CoordinatesException;
 import fr.daniss.avaj.simulator.exceptions.ScenarioFileException;
 import fr.daniss.avaj.simulator.exceptions.SimulatorException;
