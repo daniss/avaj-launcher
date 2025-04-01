@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tower {
-   private List<Flyable> observers;
+   private List<Flyable> observers = new ArrayList<Flyable>();
 
    public void register(Flyable var1) {
       this.observers.add(var1);
@@ -12,6 +12,7 @@ public class Tower {
    }
 
    public void unregister(Flyable var1) {
+      this.observers.remove(var1);
       System.out.println("Tower says: " + var1.getClass().getSimpleName() + " unregistered from weather tower.");
    }
 

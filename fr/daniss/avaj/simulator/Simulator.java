@@ -92,7 +92,7 @@ public class Simulator {
                     
                     aircraft.registerTower(weatherTower);
                 } catch (SimulatorException e) {
-                    System.err.println("Error: " + e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                     reader.close();
                     System.exit(1);
                 }
@@ -105,10 +105,10 @@ public class Simulator {
             }
             
         } catch (SimulatorException e) {
-            System.err.println("Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
             System.exit(1);
         } catch (IOException e) {
-            System.err.println("Error: I/O error occurred - " + e.getMessage());
+            System.out.println("Error: I/O error occurred - " + e.getMessage());
             System.exit(1);
         } finally {
             if (writer != null) {

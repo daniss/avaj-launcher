@@ -20,11 +20,6 @@ public class Aircraft extends Flyable {
         throw new UnsupportedOperationException("Method not implemented");
     }
     
-    public void registerTower(WeatherTower p_tower) {
-        this.weatherTower = p_tower;
-        weatherTower.register(this);
-    }
-    
     protected Coordinates updateCoordinates(int longitude, int latitude, int height) {
         return new Coordinates(longitude, latitude, height);
     }
