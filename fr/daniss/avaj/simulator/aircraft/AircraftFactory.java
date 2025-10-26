@@ -17,7 +17,7 @@ public class AircraftFactory {
         return instance;
     }
     
-    private static int id = 0;
+    private static int id = 1;
     public Flyable newAircraft(String p_type, String p_name, Coordinates p_coordinates) throws AircraftTypeException {
         switch (p_type.toLowerCase()) {
             case "helicopter":

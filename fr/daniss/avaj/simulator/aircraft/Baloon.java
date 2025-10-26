@@ -4,8 +4,8 @@ import fr.daniss.avaj.simulator.Coordinates;
 
 public class Baloon extends Aircraft {
     
-    public Baloon(long p_id, String p_name, Coordinates p_coordinates) {
-        super(p_id, p_name, p_coordinates);
+    public Baloon(long p_id, String p_name, Coordinates p_coordinate) {
+        super(p_id, p_name, p_coordinate);
     }
 
     public void updateConditions() {
@@ -18,27 +18,26 @@ public class Baloon extends Aircraft {
             case "SUN":
                 longitude += 2;
                 height = Math.min(height + 4, 100);
-                System.out.println("Baloon#" + name + "(" + id + "): Beautiful weather for ballooning!");
+                System.out.println(getIdentifier() + ": Beautiful weather for ballooning!");
                 break;
             case "RAIN":
                 height = Math.max(height - 5, 0);
-                System.out.println("Baloon#" + name + "(" + id + "): Rain is making the balloon heavier.");
+                System.out.println(getIdentifier() + ": Rain is making the balloon heavier.");
                 break;
             case "FOG":
                 height = Math.max(height - 3, 0);
-                System.out.println("Baloon#" + name + "(" + id + "): Fog is limiting visibility.");
+                System.out.println(getIdentifier() + ": Fog is limiting visibility.");
                 break;
             case "SNOW":
                 height = Math.max(height - 15, 0);
-                System.out.println("Baloon#" + name + "(" + id + "): Snow is accumulating on the balloon!");
+                System.out.println(getIdentifier() + ": Snow is accumulating on the balloon!");
                 break;
         }
 
         coordinates = updateCoordinates(longitude, latitude, height);
         
         if (coordinates.getHeight() == 0) {
-            System.out.println("Baloon#" + name + "(" + id + "): Landing at coordinates (" 
-                + coordinates.getLongitude() + ", " + coordinates.getLatitude() + ").");
+            System.out.println(getIdentifier() + " landing.");
             weatherTower.unregister(this);
         }
     }

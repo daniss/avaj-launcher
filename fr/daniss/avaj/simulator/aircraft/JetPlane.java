@@ -4,8 +4,8 @@ import fr.daniss.avaj.simulator.Coordinates;
 
 public class JetPlane extends Aircraft{
     
-    public JetPlane(long p_id, String p_name, Coordinates p_coordinates) {
-        super(p_id, p_name, p_coordinates);
+    public JetPlane(long p_id, String p_name, Coordinates p_coordinate) {
+        super(p_id, p_name, p_coordinate);
     }
 
     public void updateConditions() {
@@ -18,27 +18,26 @@ public class JetPlane extends Aircraft{
             case "SUN":
                 latitude += 10;
                 height = Math.min(height + 2, 100);
-                System.out.println("JetPlane#" + name + "(" + id + "): Clear skies ahead!");
+                System.out.println(getIdentifier() + ": Clear skies ahead!");
                 break;
             case "RAIN":
                 latitude += 5;
-                System.out.println("JetPlane#" + name + "(" + id + "): Rain droplets on the windshield.");
+                System.out.println(getIdentifier() + ": Rain droplets on the windshield.");
                 break;
             case "FOG":
                 latitude += 1;
-                System.out.println("JetPlane#" + name + "(" + id + "): Flying through fog, visibility reduced.");
+                System.out.println(getIdentifier() + ": Flying through fog, visibility reduced.");
                 break;
             case "SNOW":
                 height = Math.max(height - 7, 0);
-                System.out.println("JetPlane#" + name + "(" + id + "): Encountering snow at high altitude.");
+                System.out.println(getIdentifier() + ": Encountering snow at high altitude.");
                 break;
         }
 
         coordinates = updateCoordinates(longitude, latitude, height);
         
         if (coordinates.getHeight() == 0) {
-            System.out.println("JetPlane#" + name + "(" + id + "): Landing at coordinates (" 
-                + coordinates.getLongitude() + ", " + coordinates.getLatitude() + ").");
+            System.out.println(getIdentifier() + " landing.");
             weatherTower.unregister(this);
         }
     }

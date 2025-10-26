@@ -11,12 +11,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.OutputStream;
 
 public class Simulator {
     
     private static WeatherTower weatherTower;
     private static PrintWriter writer;
+    private static PrintStream originalOut;
     
     public static void main(String[] args) {
         try {            
@@ -30,10 +33,25 @@ public class Simulator {
             }
             
             writer = new PrintWriter(new FileWriter("simulation.txt"));
-            System.setOut(new java.io.PrintStream(new java.io.OutputStream() {
+            originalOut = System.out;
+
+            System.setOut(new PrintStream(new OutputStream() {
                 @Override
                 public void write(int b) throws IOException {
                     writer.write(b);
+                    writer.flush();
+                }
+                
+                @Override
+                public void write(byte[] b) throws IOException {
+                    writer.write(new String(b));
+                    writer.flush();
+                }
+                
+                @Override
+                public void write(byte[] b, int off, int len) throws IOException {
+                    writer.write(new String(b, off, len));
+                    writer.flush();
                 }
             }));
             
@@ -47,9 +65,9 @@ public class Simulator {
             int simulationCycles;
             try {
                 simulationCycles = Integer.parseInt(line.trim());
-                if (simulationCycles < 0) {
+                if (simulationCycles <= 0) {
                     reader.close();
-                    throw new ScenarioFileException("Simulation cycles must be non-negative");
+                    throw new ScenarioFileException("Simulation cycles must be positive");
                 }
             } catch (NumberFormatException e) {
                 throw new ScenarioFileException("First line must be a valid integer (number of simulation cycles)");
@@ -84,14 +102,15 @@ public class Simulator {
                     } catch (NumberFormatException e) {
                         throw new CoordinatesException("Invalid coordinates on line " + lineNumber + ": " + line);
                     }
-                    if (longitude < 0 || latitude < 0 || height < 0) {
-                        throw new CoordinatesException("Coordinates must be non-negative on line " + lineNumber + ": " + line);
+                    if (longitude <= 0 || latitude <= 0 || height <= 0) {
+                        throw new CoordinatesException("Coordinates must be positive on line " + lineNumber + ": " + line);
                     }
                     Coordinates coordinates = new Coordinates(longitude, latitude, height);
                     Flyable aircraft = aircraftFactory.newAircraft(type, name, coordinates);
                     
                     aircraft.registerTower(weatherTower);
                 } catch (SimulatorException e) {
+                    System.setOut(originalOut);
                     System.out.println("Error: " + e.getMessage());
                     reader.close();
                     System.exit(1);
@@ -105,14 +124,23 @@ public class Simulator {
             }
             
         } catch (SimulatorException e) {
+            if (originalOut != null) {
+                System.setOut(originalOut);
+            }
             System.out.println("Error: " + e.getMessage());
             System.exit(1);
         } catch (IOException e) {
+            if (originalOut != null) {
+                System.setOut(originalOut);
+            }
             System.out.println("Error: I/O error occurred - " + e.getMessage());
             System.exit(1);
         } finally {
             if (writer != null) {
                 writer.close();
+            }
+            if (originalOut != null) {
+                System.setOut(originalOut);
             }
         }
     }

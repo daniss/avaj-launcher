@@ -19,6 +19,10 @@ public class Aircraft extends Flyable {
         throw new UnsupportedOperationException("Method not implemented");
     }
     
+    public String getIdentifier() {
+        return this.getClass().getSimpleName() + "#" + name + "(" + id + ")";
+    }
+    
     Coordinates updateCoordinates(int longitude, int latitude, int height) {
         return Coordinates.create(longitude, latitude, height);
     }

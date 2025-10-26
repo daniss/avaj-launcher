@@ -1,7 +1,6 @@
 package fr.daniss.avaj.simulator.weather;
 
 import fr.daniss.avaj.simulator.Coordinates;
-import java.util.Random;
 
 public class WeatherProvider {
     private static WeatherProvider weatherProvider;
@@ -17,8 +16,11 @@ public class WeatherProvider {
     }
     
     public String getCurrentWeather(Coordinates p_coordinates) {
-        int seed = p_coordinates.getLongitude() + p_coordinates.getLatitude() + p_coordinates.getHeight();
-        Random random = new Random(seed);
-        return weather[random.nextInt(weather.length)];
+        int sum = p_coordinates.getLongitude()
+                + p_coordinates.getLatitude()
+                + p_coordinates.getHeight();
+
+        int index = Math.abs(sum) % weather.length;
+        return weather[index];
     }
 }

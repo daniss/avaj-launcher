@@ -6,20 +6,20 @@ import java.util.List;
 public class Tower {
    private List<Flyable> observers = new ArrayList<Flyable>();
 
-   public void register(Flyable var1) {
-      this.observers.add(var1);
-      System.out.println("Tower says: " + var1.getClass().getSimpleName() + " registered to weather tower.");
+   public void register(Flyable p_flyable) {
+      this.observers.add(p_flyable);
+      System.out.println("Tower says: " + p_flyable.getIdentifier() + " registered to weather tower.");
    }
 
-   public void unregister(Flyable var1) {
-      this.observers.remove(var1);
-      System.out.println("Tower says: " + var1.getClass().getSimpleName() + " unregistered from weather tower.");
+   public void unregister(Flyable p_flyable) {
+      this.observers.remove(p_flyable);
+      System.out.println("Tower says: " + p_flyable.getIdentifier() + " unregistered from weather tower.");
    }
 
-   protected void conditionsChanged() {
-        List<Flyable> observersCopy = new ArrayList<>(observers);
-        for (Flyable observer : observersCopy) {
-            observer.updateConditions();
-        }
+   protected void conditionChanged() {
+       List<Flyable> observersCopy = new ArrayList<>(observers);
+       for (Flyable observer : observersCopy) {
+           observer.updateConditions();
+       }
     }
 }
